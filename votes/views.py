@@ -83,13 +83,48 @@ class ReactyViewSet(viewsets.ModelViewSet):
                 serializer.save(like=self.request.user,post=post_instance)
             # Notification.objects.create(notification_type='vote', from_user=receiver, to_user=sender)
         #if dislikes
-        else:
+        elif self.request.data['celebrate1']:
+            already_celebrated=Reacty.objects.filter(post=post_instance,celebrate=self.request.user).exists()
+            print(already_celebrated)
+            if already_celebrated:
+                raise serializers.ValidationError({"message":"You have already celebrated this post"})
+            else:
+                serializer.save(celebrate=self.request.user,post=post_instance)
+
+        elif self.request.data['support1']:
+            already_supported=Reacty.objects.filter(post=post_instance,support=self.request.user).exists()
+            print(already_supported)
+            if already_supported:
+                raise serializers.ValidationError({"message":"You have already supported this post"})
+            else:
+                serializer.save(celebrate=self.request.user,post=post_instance)
+
+        elif self.request.data['love1']:
+            already_loved=Reacty.objects.filter(post=post_instance,love=self.request.user).exists()
+            print(already_loved)
+            if already_loved:
+                raise serializers.ValidationError({"message":"You have already loved this post"})
+            else:
+                serializer.save(love=self.request.user,post=post_instance)
+
+        elif self.request.data['insightful1']:
+            already_insighted=Reacty.objects.filter(post=post_instance,insightful=self.request.user).exists()
+            print(already_insighted)
+            if already_insighted:
+                raise serializers.ValidationError({"message":"You have already insighted this post"})
+            else:
+                serializer.save(insightful=self.request.user,post=post_instance)
+
+        elif self.request.data['curious1']:
+            already_curious=Reacty.objects.filter(post=post_instance,curious=self.request.user).exists()
+            print(already_curious)
+            if already_curious:
+                raise serializers.ValidationError({"message":"You have already celebrated this post"})
+            else:
+                serializer.save(curious=self.request.user,post=post_instance)
+
+        else :
             pass
-            # already_down_voted=Vote.objects.filter(post=post_instance,down_vote_by=self.request.user).exists()
-            # if already_down_voted:
-            #     raise serializers.ValidationError({"message":"You have already disliked this post"})
-            # else:
-            #     serializer.save(down_vote_by=self.request.user,post=post_instance)
 
         
 

@@ -1,4 +1,4 @@
-from .models import Message, Conversation
+from .models import Message,Conversation
 from django.contrib import admin
 
 # Register your models here.

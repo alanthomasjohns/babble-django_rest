@@ -15,13 +15,25 @@ class Conversation(models.Model):
     start_time = models.DateTimeField(auto_now_add=True)
 
 
-class Message(models.Model):
-    sender = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,
-                              null=True, related_name='message_sender')
-    text = models.CharField(max_length=200, blank=True)
-    attachment = models.FileField(blank=True)
-    conversation_id = models.ForeignKey(Conversation, on_delete=models.CASCADE,null=True)
-    timestamp = models.DateTimeField(auto_now_add=True)
+class Chat(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+    message = models.CharField(max_length=200)
+    sender = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='chats'
+    )
 
+    def __str__(self):
+        return self.message
+    
     class Meta:
-        ordering = ('-timestamp',)
+        ordering = ['-created']
+
+
+class Message(models.Model):
+    # Fields for the message model, such as sender, recipient, content, etc.
+    sender = models.ForeignKey(Account, on_delete=models.CASCADE, db_index=True, null=True)
+    recipient = models.ForeignKey(Account, on_delete=models.CASCADE, db_index=True, related_name="reciept", null=True)
+    content = models.TextField(null=True)
+    created_at = models.DateTimeField(auto_now_add=True, db_index=True, null=True)

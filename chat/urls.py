@@ -1,8 +1,10 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework import routers
 from . import views
 
+router = routers.DefaultRouter()
+router.register(r'chats', views.ChatViewSet)
+
 urlpatterns = [
-    path('start/', views.start_convo, name='start_convo'),
-    path('<int:convo_id>/', views.get_conversation, name='get_conversation'),
-    path('convos/', views.conversations, name='conversations')
+    path('api/', include(router.urls)),
 ]

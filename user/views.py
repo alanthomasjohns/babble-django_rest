@@ -35,11 +35,7 @@ class RegisterAPI(APIView):
                     'data' : serializer.data
                 })
 
-            return Response({
-                'status' : 400,
-                'message' : 'Something went wrong',
-                'data' : serializer.errors
-            })
+            return Response(serializer.errors)
 
         except Exception as e:
             print(e)
@@ -112,20 +108,11 @@ class LoginAPI(APIView):
             if serializer.is_valid():
                 email = serializer.data['email']
                 password = serializer.data['password']
-                # refresh = RefreshToken.for_user(email)
-                # print("_______________________")
-                # print(refresh)
-                # print("________________________")
                  
                 user = authenticate(username=email, password=password)
                 print("___________")
                 print(user)
                 print("___________")
-                # print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
-                # print(user)
-                # print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
-                # refresh = RefreshToken.for_user(user)
-                # print(refresh)
                 if email is None:
                     return Response({
                         'status' : 400,

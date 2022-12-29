@@ -1,5 +1,5 @@
 from user.serializers import UserSerializer, ChatUserSerializer
-from .models import Conversation, Message
+from .models import Conversation, Chat, Message
 from rest_framework import serializers
 
 
@@ -31,3 +31,13 @@ class ConversationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Conversation
         fields = ['initiator', 'receiver', 'message_set']
+
+
+
+class ChatSerializer(serializers.ModelSerializer):
+    sender = serializers.StringRelatedField()
+    created = serializers.DateTimeField(format='%Y-%m-%d %H:%M:%S')
+
+    class Meta:
+        model = Chat
+        fields = ('id', 'created', 'message', 'sender')
